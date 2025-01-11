@@ -4,6 +4,7 @@ import DeleteItem from '../cart/DeleteItem';
 import UpdateItemQuantity from '../cart/UpdateItemQuantity';
 import { formatCurrency } from '../../utils/helpers';
 import { addItem, getCurrentQuantityById } from '../cart/cartSlice';
+import PropTypes from 'prop-types';
 
 function MenuItem({ pizza }) {
   const dispatch = useDispatch();
@@ -65,5 +66,16 @@ function MenuItem({ pizza }) {
     </li>
   );
 }
+
+MenuItem.propTypes = {
+  pizza: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    unitPrice: PropTypes.number.isRequired,
+    ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
+    soldOut: PropTypes.bool.isRequired,
+    imageUrl: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default MenuItem;

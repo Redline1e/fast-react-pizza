@@ -41,9 +41,10 @@ function CreateOrder() {
 
   return (
     <div className="px-4 py-6">
-      <h2 className="mb-8 text-xl font-semibold">Ready to order? Let's go!</h2>
+      <h2 className="mb-8 text-xl font-semibold">
+        Ready to order? Let&apos;s go!
+      </h2>
 
-      {/* <Form method="POST" action="/order/new"> */}
       <Form method="POST">
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
           <label className="sm:basis-40">First Name</label>
@@ -112,7 +113,7 @@ function CreateOrder() {
             onChange={(e) => setWithPriority(e.target.checked)}
           />
           <label htmlFor="priority" className="font-medium">
-            Want to yo give your order priority?
+            Want to give your order priority?
           </label>
         </div>
 
@@ -122,7 +123,7 @@ function CreateOrder() {
             type="hidden"
             name="position"
             value={
-              position.longitude && position.latitude
+              position.latitude && position.longitude
                 ? `${position.latitude},${position.longitude}`
                 : ''
             }
@@ -149,19 +150,18 @@ export async function action({ request }) {
     priority: data.priority === 'true',
   };
 
-  console.log(order);
-
   const errors = {};
-  if (!isValidPhone(order.phone))
+  if (!isValidPhone(order.phone)) {
     errors.phone =
-      'Please give us your correct phone number. We might need it to contact you.';
+      'Please provide a valid phone number. We might need it to contact you.';
+  }
 
   if (Object.keys(errors).length > 0) return errors;
 
-  // If everything is okay, create new order and redirect
+  // Create the order and redirect to the order details page
   const newOrder = await createOrder(order);
 
-  // Do NOT overuse
+  // Clear the cart after the order is created
   store.dispatch(clearCart());
 
   return redirect(`/order/${newOrder.id}`);

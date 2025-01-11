@@ -3,11 +3,15 @@ import { formatCurrency } from '../../utils/helpers';
 import DeleteItem from './DeleteItem';
 import UpdateItemQuantity from './UpdateItemQuantity';
 import { getCurrentQuantityById } from './cartSlice';
+import PropTypes from 'prop-types';
+import { memo } from 'react';
 
-function CartItem({ item }) {
+const CartItem = memo(({ item }) => {
   const { pizzaId, name, quantity, totalPrice } = item;
 
-  const currentQuantity = useSelector(getCurrentQuantityById(pizzaId));
+  const currentQuantity = useSelector((state) =>
+    getCurrentQuantityById(state, pizzaId)
+  );
 
   return (
     <li className="py-3 sm:flex sm:items-center sm:justify-between">
@@ -25,6 +29,18 @@ function CartItem({ item }) {
       </div>
     </li>
   );
-}
+});
+
+// Set the display name for the component
+CartItem.displayName = 'CartItem';
+
+CartItem.propTypes = {
+  item: PropTypes.shape({
+    pizzaId: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+    totalPrice: PropTypes.number.isRequired,
+  }).isRequired,
+};
 
 export default CartItem;

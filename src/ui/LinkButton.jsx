@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 function LinkButton({ children, to }) {
   const navigate = useNavigate();
@@ -17,5 +18,13 @@ function LinkButton({ children, to }) {
     </Link>
   );
 }
+
+LinkButton.propTypes = {
+  children: PropTypes.node.isRequired,  
+  to: PropTypes.oneOfType([            
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
+};
 
 export default LinkButton;
